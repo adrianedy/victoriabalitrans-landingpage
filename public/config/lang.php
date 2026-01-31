@@ -27,6 +27,12 @@ if ($first_looks_like_lang && $segments[0] === $default_lang) {
   $script_dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
   $path_prefix = ($script_dir === '' || $script_dir === '/') ? '' : $script_dir;
   $base_url = $scheme . '://' . $host . $path_prefix;
+  if ($path_prefix === '/public') {
+    $base_url = $scheme . '://' . $host;
+  }
+  if (($b = getenv('BASE_URL')) !== false && $b !== '') {
+    $base_url = rtrim($b, '/');
+  }
   $redirect = $base_url . ($path_rest !== '' ? '/' . $path_rest : '') . '/';
   header('Location: ' . $redirect, true, 301);
   exit;
@@ -36,6 +42,12 @@ if ($first_looks_like_lang && !in_array($segments[0], $supported_langs, true)) {
   $script_dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
   $path_prefix = ($script_dir === '' || $script_dir === '/') ? '' : $script_dir;
   $base_url = $scheme . '://' . $host . $path_prefix;
+  if ($path_prefix === '/public') {
+    $base_url = $scheme . '://' . $host;
+  }
+  if (($b = getenv('BASE_URL')) !== false && $b !== '') {
+    $base_url = rtrim($b, '/');
+  }
   header('Location: ' . $base_url . '/', true, 302);
   exit;
 }
@@ -49,22 +61,31 @@ if (!empty($segments) && in_array($segments[0], $prefixed_langs, true)) {
   $path_rest = $segments;
 }
 
-$req_path = $uri;
-if ($base_path !== '' && (substr($req_path, -strlen($base_path)) === $base_path)) {
-  $app_root = rtrim(substr($req_path, 0, -strlen($base_path)), '/');
-  $path_prefix = ($app_root === '' || $app_root === '/') ? '' : $app_root;
+// Base URL = site root for links (no /public in URL). Prefer BASE_URL from env (like Destinexia).
+if (($base_url_env = getenv('BASE_URL')) !== false && $base_url_env !== '') {
+  $base_url = rtrim($base_url_env, '/');
 } else {
-  $script_dir_fs = str_replace('\\', '/', dirname($_SERVER['SCRIPT_FILENAME'] ?? __DIR__ . '/../index.php'));
-  $doc_root = isset($_SERVER['DOCUMENT_ROOT']) ? rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/') : '';
-  if ($doc_root !== '' && strpos($script_dir_fs, $doc_root) === 0) {
-    $path_prefix = substr($script_dir_fs, strlen($doc_root));
-    $path_prefix = ($path_prefix === '' || $path_prefix === '/') ? '' : $path_prefix;
+  $req_path = $uri;
+  if ($base_path !== '' && (substr($req_path, -strlen($base_path)) === $base_path)) {
+    $app_root = rtrim(substr($req_path, 0, -strlen($base_path)), '/');
+    $path_prefix = ($app_root === '' || $app_root === '/') ? '' : $app_root;
   } else {
-    $script_dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
-    $path_prefix = ($script_dir === '' || $script_dir === '/') ? '' : $script_dir;
+    $script_dir_fs = str_replace('\\', '/', dirname($_SERVER['SCRIPT_FILENAME'] ?? __DIR__ . '/../index.php'));
+    $doc_root = isset($_SERVER['DOCUMENT_ROOT']) ? rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/') : '';
+    if ($doc_root !== '' && strpos($script_dir_fs, $doc_root) === 0) {
+      $path_prefix = substr($script_dir_fs, strlen($doc_root));
+      $path_prefix = ($path_prefix === '' || $path_prefix === '/') ? '' : $path_prefix;
+    } else {
+      $script_dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
+      $path_prefix = ($script_dir === '' || $script_dir === '/') ? '' : $script_dir;
+    }
+  }
+  $base_url = $scheme . '://' . $host . $path_prefix;
+  // When doc root is project root and requests rewrite to public/, path_prefix = /public → strip so links are /
+  if ($path_prefix === '/public') {
+    $base_url = $scheme . '://' . $host;
   }
 }
-$base_url = $scheme . '://' . $host . $path_prefix;
 
 $base_path_parsed = trim((string) (parse_url($base_url, PHP_URL_PATH) ?? ''), '/');
 $base_segments = $base_path_parsed === '' ? [] : explode('/', $base_path_parsed);
