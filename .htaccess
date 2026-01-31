@@ -1,0 +1,29 @@
+# Serve all requests from the public folder - root is not directly accessible
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Allow direct access to PHP scripts at root
+    RewriteCond %{REQUEST_URI} \.php$ [NC]
+    RewriteRule ^ - [L]
+
+    # Root and index files -> serve from public
+    RewriteRule ^$ public/index.php [L]
+    RewriteRule ^index\.(html|php)$ public/index.php [L]
+
+    # If the requested path exists as a file in public/, serve it (BEFORE language rule so /css, /js, /images work)
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+    RewriteRule ^(.+)$ public/$1 [L]
+
+    # If the requested path exists as a directory in public/, serve index or redirect
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -d
+    RewriteRule ^(.+)$ public/$1/ [L]
+
+    # Multi-language: any /xx or /xx/... (2–3 letter segment) -> public/index.php; validation in lang.php
+    RewriteRule ^([a-z]{2,3})(/.*)?$ public/index.php [L]
+</IfModule>
+
+# Deny access to sensitive files in root (when Apache allows .htaccess)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

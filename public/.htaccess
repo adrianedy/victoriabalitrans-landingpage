@@ -1,0 +1,10 @@
+# Set index.php as default directory index
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Serve logo as favicon when browser requests /favicon.ico (avoid 404)
+    RewriteRule ^favicon\.ico$ images/logo.png [L]
+    # Block direct browser access to config (data only, included by PHP)
+    RewriteRule ^config/ - [F,L]
+</IfModule>
