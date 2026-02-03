@@ -7,6 +7,11 @@ require __DIR__ . '/lang.php';
 
 $lang_dir = __DIR__ . '/' . $current_lang;
 
+$whatsapp = '6285103771369';
+$email = 'bali4tranz@gmail.com';
+$logo_path = 'images/vbt-logo.png';
+$form_id = 'VICTORIABALITRANS_CONTACT_FORM';
+
 $shared_file = $lang_dir . '/_shared.php';
 if (!is_file($shared_file)) {
   $shared_file = __DIR__ . '/id/_shared.php';

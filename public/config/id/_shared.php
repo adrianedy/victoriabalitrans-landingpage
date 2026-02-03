@@ -3,9 +3,6 @@
  * Data bersama (bukan data halaman) - Bahasa Indonesia
  */
 
-$whatsapp = '6285103771369';
-$email = 'bali4tranz@gmail.com';
-$logo_path = 'images/vbt-logo.png';
 $logo_alt = 'Victoria Bali Holiday - Paket Tour & Transportasi Bali';
 
 $nav_wa_text = 'Hubungi Kami';
