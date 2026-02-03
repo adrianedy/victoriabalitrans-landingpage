@@ -533,6 +533,12 @@ document.addEventListener('DOMContentLoaded', function() {
             lastAutoEmailBody = auto;
         }
 
+        // Set timestamp on page load (anti-bot protection)
+        const tsEl = document.getElementById('form-ts');
+        if (tsEl) {
+            tsEl.value = String(Math.floor(Date.now() / 1000));
+        }
+
         emailForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
@@ -553,11 +559,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 submitBtn.disabled = true;
             }
 
-            // Validasi waktu (anti-bot): set ts sebelum kirim
-            const tsEl = document.getElementById('form-ts');
-            if (tsEl) {
-                tsEl.value = String(Math.floor(Date.now() / 1000));
-            }
 
             const action = (emailForm.getAttribute('action') || '').trim();
             const method = ((emailForm.getAttribute('method') || 'POST').trim() || 'POST').toUpperCase();
@@ -585,6 +586,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const isOk = Boolean(payload && (payload.ok || payload.success));
                 if (res.ok && isOk) {
                     emailForm.dataset.submitted = 'true';
+                    // Update timestamp after successful send (prevent reuse)
+                    const tsEl = document.getElementById('form-ts');
+                    if (tsEl) {
+                        tsEl.value = String(Math.floor(Date.now() / 1000));
+                    }
                     showEmailMessage('success', payload.message || 'Email sent successfully.');
                     return;
                 }
