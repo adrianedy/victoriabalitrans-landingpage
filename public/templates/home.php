@@ -303,7 +303,7 @@ $base = rtrim($base_url, '/');
                 <form id="email-form" class="max-w-2xl mx-auto text-left" action="https://destinexia.com/send-email.php" method="POST" data-email-to="<?php echo htmlspecialchars($email); ?>">
                     <input type="hidden" name="form_id" value="<?php echo e($form_id); ?>">
                     <input type="hidden" name="ts" id="form-ts" value="">
-                    <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+                    <input type="text" name="subject" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
                     <div class="mb-4 sm:mb-5">
                         <label for="sender-name" class="block text-sm sm:text-base font-medium mb-2 text-white"><?php echo e($form_name_label); ?> <span class="text-red-300">*</span></label>
                         <input type="text" id="sender-name" name="name" required maxlength="200" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent" placeholder="<?php echo e($form_name_placeholder); ?>">
