@@ -214,10 +214,20 @@ function updateActivityVisualState(row, isChecked) {
 
 // Initialize selection handlers when DOM is ready
 function initSelectionHandlers() {
-    // Handle transport selection - use both change and click events
-    document.querySelectorAll('.transport-radio').forEach(radio => {
-        // Change event
-        radio.addEventListener('change', function() {
+    // Initialize visual states to reset all checkboxes
+    updateTransportVisualState(null);
+    updateHotelVisualState(null);
+    updateTripVisualState(null);
+    // Handle transport selection - checkboxes (single selection)
+    document.querySelectorAll('.transport-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            // Uncheck all other transport checkboxes first (single selection)
+            document.querySelectorAll('.transport-checkbox').forEach(other => {
+                if (other !== this) {
+                    other.checked = false;
+                }
+            });
+
             if (this.checked) {
                 selectedTransport = {
                     name: this.dataset.name,
@@ -230,46 +240,20 @@ function initSelectionHandlers() {
             }
             updateWhatsAppLink();
         });
-        
-        // Click event as backup
-        radio.addEventListener('click', function() {
-            setTimeout(() => {
-                if (this.checked) {
-                    selectedTransport = {
-                        name: this.dataset.name,
-                        price: this.dataset.price
-                    };
-                    updateTransportVisualState(this);
-                    updateWhatsAppLink();
-                }
-            }, 0);
-        });
     });
     
-    // Handle clicks on transport labels
-    document.querySelectorAll('label').forEach(label => {
-        const transportRadio = label.querySelector('.transport-radio');
-        if (transportRadio) {
-            label.addEventListener('click', function(e) {
-                // Small delay to let radio button update first
-                setTimeout(() => {
-                    if (transportRadio.checked) {
-                        selectedTransport = {
-                            name: transportRadio.dataset.name,
-                            price: transportRadio.dataset.price
-                        };
-                        updateTransportVisualState(transportRadio);
-                        updateWhatsAppLink();
-                    }
-                }, 5);
-            });
-        }
-    });
+    // Handle clicks on transport labels - checkboxes handle this automatically
 
-    // Handle hotel selection - use both change and click events
-    document.querySelectorAll('.hotel-radio').forEach(radio => {
-        // Change event
-        radio.addEventListener('change', function() {
+    // Handle hotel selection - checkboxes (single selection)
+    document.querySelectorAll('.hotel-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            // Uncheck all other hotel checkboxes first (single selection)
+            document.querySelectorAll('.hotel-checkbox').forEach(other => {
+                if (other !== this) {
+                    other.checked = false;
+                }
+            });
+
             if (this.checked) {
                 selectedHotel = {
                     name: this.dataset.name
@@ -281,44 +265,20 @@ function initSelectionHandlers() {
             }
             updateWhatsAppLink();
         });
-        
-        // Click event as backup
-        radio.addEventListener('click', function() {
-            setTimeout(() => {
-                if (this.checked) {
-                    selectedHotel = {
-                        name: this.dataset.name
-                    };
-                    updateHotelVisualState(this);
-                    updateWhatsAppLink();
-                }
-            }, 0);
-        });
     });
     
-    // Handle clicks on hotel labels
-    document.querySelectorAll('label').forEach(label => {
-        const hotelRadio = label.querySelector('.hotel-radio');
-        if (hotelRadio) {
-            label.addEventListener('click', function(e) {
-                // Small delay to let radio button update first
-                setTimeout(() => {
-                    if (hotelRadio.checked) {
-                        selectedHotel = {
-                            name: hotelRadio.dataset.name
-                        };
-                        updateHotelVisualState(hotelRadio);
-                        updateWhatsAppLink();
-                    }
-                }, 5);
-            });
-        }
-    });
+    // Handle clicks on hotel labels - checkboxes handle this automatically
 
-    // Handle trip selection - use both change and click events
-    document.querySelectorAll('.trip-radio').forEach(radio => {
-        // Change event
-        radio.addEventListener('change', function() {
+    // Handle trip selection - checkboxes (single selection)
+    document.querySelectorAll('.trip-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            // Uncheck all other trip checkboxes first (single selection)
+            document.querySelectorAll('.trip-checkbox').forEach(other => {
+                if (other !== this) {
+                    other.checked = false;
+                }
+            });
+
             if (this.checked) {
                 selectedTrip = {
                     title: this.dataset.title,
@@ -331,41 +291,9 @@ function initSelectionHandlers() {
             }
             updateWhatsAppLink();
         });
-        
-        // Click event as backup
-        radio.addEventListener('click', function() {
-            setTimeout(() => {
-                if (this.checked) {
-                    selectedTrip = {
-                        title: this.dataset.title,
-                        price: this.dataset.price
-                    };
-                    updateTripVisualState(this);
-                    updateWhatsAppLink();
-                }
-            }, 0);
-        });
     });
     
-    // Handle clicks on trip labels
-    document.querySelectorAll('label').forEach(label => {
-        const tripRadio = label.querySelector('.trip-radio');
-        if (tripRadio) {
-            label.addEventListener('click', function(e) {
-                // Small delay to let radio button update first
-                setTimeout(() => {
-                    if (tripRadio.checked) {
-                        selectedTrip = {
-                            title: tripRadio.dataset.title,
-                            price: tripRadio.dataset.price
-                        };
-                        updateTripVisualState(tripRadio);
-                        updateWhatsAppLink();
-                    }
-                }, 5);
-            });
-        }
-    });
+    // Handle clicks on trip labels - checkboxes handle this automatically
 
     // Handle activity selection - multiple select
     document.querySelectorAll('.activity-option').forEach(checkbox => {

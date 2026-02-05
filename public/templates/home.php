@@ -29,13 +29,13 @@ $base = rtrim($base_url, '/');
         <p class="text-sm sm:text-base md:text-lg text-center text-gray-600 mb-8 sm:mb-12 px-2 sm:px-0 leading-relaxed"><?php echo e($section_packages_subtitle); ?></p>
         <div id="packages-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12 items-start">
             <?php foreach ($packagesData as $index => $pkg):
-                $bgClass = !empty($pkg['featured']) ? 'bg-gradient-to-br from-white to-yellow-light border-yellow-primary' : 'bg-white border-blue-light';
+                $bgClass = !empty($pkg['featured']) ? 'bg-gradient-to-br from-white to-yellow-light' : 'bg-white';
                 $images = isset($pkg['images']) ? $pkg['images'] : [];
             ?>
             <label class="cursor-pointer">
-                <input type="radio" name="trip" value="<?php echo e($pkg['title']); ?>" class="hidden trip-radio" data-title="<?php echo e($pkg['title']); ?>" data-price="<?php echo e($pkg['price']); ?>">
+                <input type="checkbox" class="hidden trip-checkbox" data-title="<?php echo e($pkg['title']); ?>" data-price="<?php echo e($pkg['price']); ?>">
                 <div class="package-card <?php echo $bgClass; ?> rounded-2xl shadow-lg border-2 relative overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 trip-card">
-                    <?php if (!empty($pkg['featured'])): ?><div class="absolute top-3 right-3 bg-yellow-primary text-blue-primary px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold z-10"><?php echo e($popular_badge); ?></div><?php endif; ?>
+                    <?php if (!empty($pkg['featured'])): ?><div class="absolute top-3 right-3 bg-yellow-primary text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold z-10"><?php echo e($popular_badge); ?></div><?php endif; ?>
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-primary to-yellow-primary"></div>
                     <?php if (!empty($images)): ?>
                     <div class="relative p-3 sm:p-4">
@@ -177,7 +177,7 @@ $base = rtrim($base_url, '/');
         <div id="transport-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             <?php foreach ($transportData as $index => $transport): ?>
             <label class="cursor-pointer">
-                <input type="radio" name="transport" value="<?php echo e($transport['name']); ?>" class="hidden transport-radio" data-name="<?php echo e($transport['name']); ?>" data-price="<?php echo e($transport['price']); ?>">
+                <input type="checkbox" class="hidden transport-checkbox" data-name="<?php echo e($transport['name']); ?>" data-price="<?php echo e($transport['price']); ?>">
                 <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border-2 border-blue-light relative overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 transport-card">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-primary to-yellow-primary"></div>
                     <div class="text-center">
@@ -206,7 +206,7 @@ $base = rtrim($base_url, '/');
                 $hotelImages = isset($hotel['images']) ? $hotel['images'] : [];
             ?>
             <label class="cursor-pointer">
-                <input type="radio" name="hotel" value="<?php echo e($hotel['name']); ?>" class="hidden hotel-radio" data-name="<?php echo e($hotel['name']); ?>">
+                <input type="checkbox" class="hidden hotel-checkbox" data-name="<?php echo e($hotel['name']); ?>">
                 <div class="hotel-card bg-white rounded-2xl shadow-lg border-2 border-blue-light hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-primary to-yellow-primary"></div>
                     <?php if (!empty($hotelImages)): ?>

@@ -348,8 +348,13 @@ img.lazy-img.lazy-loaded {
     border-color: var(--yellow-primary);
 }
 
+/* Override yellow border on hover for trip cards */
+.trip-card:hover {
+    border-color: var(--blue-light);
+}
+
 .package-card.featured {
-    border-color: var(--yellow-primary);
+    border-color: var(--blue-light);
     background: linear-gradient(135deg, var(--white) 0%, var(--yellow-light) 100%);
 }
 
@@ -821,7 +826,6 @@ button, a, input, select, textarea {
 }
 
 .transport-inner-circle {
-    display: block !important;
     background-color: #0284c7 !important;
     width: 12px !important;
     height: 12px !important;
@@ -830,12 +834,12 @@ button, a, input, select, textarea {
 
 /* Fallback using :has selector for modern browsers */
 @supports selector(:has(*)) {
-    label:has(.transport-radio:checked) .transport-checkbox {
+    label:has(.transport-checkbox:checked) .transport-checkbox {
         border-width: 3px !important;
         border-color: #0284c7 !important;
     }
     
-    label:has(.transport-radio:checked) .transport-inner-circle {
+    label:has(.transport-checkbox:checked) .transport-inner-circle {
         display: block !important;
     }
 }
@@ -847,7 +851,6 @@ button, a, input, select, textarea {
 }
 
 .hotel-inner-circle {
-    display: block !important;
     background-color: #0284c7 !important;
     width: 12px !important;
     height: 12px !important;
@@ -856,12 +859,12 @@ button, a, input, select, textarea {
 
 /* Fallback using :has selector for modern browsers */
 @supports selector(:has(*)) {
-    label:has(.hotel-radio:checked) .hotel-checkbox {
+    label:has(.hotel-checkbox:checked) .hotel-checkbox {
         border-width: 3px !important;
         border-color: #0284c7 !important;
     }
     
-    label:has(.hotel-radio:checked) .hotel-inner-circle {
+    label:has(.hotel-checkbox:checked) .hotel-inner-circle {
         display: block !important;
     }
 }
@@ -873,7 +876,6 @@ button, a, input, select, textarea {
 }
 
 .trip-inner-circle {
-    display: block !important;
     background-color: #0284c7 !important;
     width: 12px !important;
     height: 12px !important;
@@ -882,31 +884,17 @@ button, a, input, select, textarea {
 
 /* Fallback using :has selector for modern browsers */
 @supports selector(:has(*)) {
-    label:has(.trip-radio:checked) .trip-checkbox {
+    label:has(.trip-checkbox:checked) .trip-checkbox {
         border-width: 3px !important;
         border-color: #0284c7 !important;
     }
     
-    label:has(.trip-radio:checked) .trip-inner-circle {
+    label:has(.trip-checkbox:checked) .trip-inner-circle {
         display: block !important;
     }
 }
 
 /* Selected state for trip cards */
-.trip-card.selected {
-    border-color: #f59e0b !important;
-    border-style: solid !important;
-    border-width: 3px !important;
-    background-color: #fef3c7 !important;
-    box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3) !important;
-    transform: translateY(-2px) !important;
-}
-
-.trip-card.selected .trip-checkbox {
-    border-color: #f59e0b !important;
-    background-color: #f59e0b !important;
-}
-
 .trip-card.selected .trip-checkmark {
     display: block !important;
     visibility: visible !important;
@@ -919,21 +907,7 @@ button, a, input, select, textarea {
 
 /* Fallback using :has selector for modern browsers */
 @supports selector(:has(*)) {
-    label:has(.trip-radio:checked) .trip-card {
-        border-color: #f59e0b !important;
-        border-style: solid !important;
-        border-width: 3px !important;
-        background-color: #fef3c7 !important;
-        box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3) !important;
-        transform: translateY(-2px) !important;
-    }
-    
-    label:has(.trip-radio:checked) .trip-card .trip-checkbox {
-        border-color: #f59e0b !important;
-        background-color: #f59e0b !important;
-    }
-    
-    label:has(.trip-radio:checked) .trip-card .trip-checkmark {
+    label:has(.trip-checkbox:checked) .trip-card .trip-checkmark {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;

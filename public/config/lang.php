@@ -5,7 +5,7 @@
  */
 
 $supported_langs = ['id', 'en'];
-$default_lang = 'id';
+$default_lang = 'en';
 $prefixed_langs = array_diff($supported_langs, [$default_lang]);
 $og_locales = ['id' => 'id_ID', 'en' => 'en_US'];
 
