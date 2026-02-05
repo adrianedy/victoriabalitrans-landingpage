@@ -43,6 +43,7 @@ $form_email_placeholder = 'your.email@example.com';
 $form_message_placeholder = 'Your message will be auto-generated based on your selections above, but you can edit it...';
 $form_message_hint = 'The message is auto-generated from your selections above, but you can edit it as needed.';
 $form_submit = 'Send Email';
+$form_submit_loading = 'Sending...';
 $contact_footer = 'First come first served 🙏';
 
 $popular_badge = 'Popular';

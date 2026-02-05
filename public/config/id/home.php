@@ -43,6 +43,7 @@ $form_email_placeholder = 'email@contoh.com';
 $form_message_placeholder = 'Pesan akan otomatis diisi sesuai pilihan Anda di atas, tapi Anda bisa mengeditnya...';
 $form_message_hint = 'Pesan otomatis dari pilihan Anda di atas, tapi Anda bisa mengedit sesuai kebutuhan.';
 $form_submit = 'Kirim Email';
+$form_submit_loading = 'Mengirim...';
 $contact_footer = 'Siapa cepat dia dapat 🙏';
 
 $popular_badge = 'Populer';

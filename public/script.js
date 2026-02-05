@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
         emailFormMessage.className =
             'mb-4 rounded-lg px-4 py-3 text-sm sm:text-base ' +
             (kind === 'success'
-                ? 'bg-green-600 text-white border border-green-500'
+                ? 'bg-green-500/20 text-white border border-green-300/30'
                 : 'bg-red-500/20 text-white border border-red-300/30');
         emailFormMessage.textContent = text;
     };
@@ -490,7 +490,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const submitBtn = document.getElementById('email-submit-btn');
             if (submitBtn) {
+                // Store original button text
+                const originalText = submitBtn.querySelector('span').textContent;
+                submitBtn.dataset.originalText = originalText;
+
+                // Show loading state
                 submitBtn.disabled = true;
+                submitBtn.querySelector('span').textContent = submitBtn.dataset.loadingText || 'Sending...';
             }
 
 
@@ -499,7 +505,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!action || method !== 'POST') {
                 showEmailMessage('error', 'Form is not configured. Please contact via WhatsApp.');
-                if (submitBtn) submitBtn.disabled = false;
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    // Restore original button text
+                    if (submitBtn.dataset.originalText) {
+                        submitBtn.querySelector('span').textContent = submitBtn.dataset.originalText;
+                    }
+                }
                 return;
             }
 
@@ -536,6 +548,10 @@ document.addEventListener('DOMContentLoaded', function() {
             } finally {
                 if (submitBtn && emailForm.dataset.submitted !== 'true') {
                     submitBtn.disabled = false;
+                    // Restore original button text
+                    if (submitBtn.dataset.originalText) {
+                        submitBtn.querySelector('span').textContent = submitBtn.dataset.originalText;
+                    }
                 }
             }
         });

@@ -318,7 +318,7 @@ $base = rtrim($base_url, '/');
                         <p class="text-xs sm:text-sm text-white/70 mt-2">💡 <?php echo e($form_message_hint); ?></p>
                     </div>
                     <div id="email-form-message" class="mb-4 hidden"></div>
-                    <button type="submit" id="email-submit-btn" class="w-full bg-white text-blue-primary font-semibold text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-4 sm:py-5 rounded-full shadow-lg hover:bg-white/90 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 min-h-[56px] flex items-center justify-center gap-2 sm:gap-3">
+                    <button type="submit" id="email-submit-btn" data-loading-text="<?php echo e($form_submit_loading); ?>" class="w-full bg-white text-blue-primary font-semibold text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-4 sm:py-5 rounded-full shadow-lg hover:bg-white/90 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 min-h-[56px] flex items-center justify-center gap-2 sm:gap-3">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="flex-shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                         <span><?php echo e($form_submit); ?></span>
                     </button>
