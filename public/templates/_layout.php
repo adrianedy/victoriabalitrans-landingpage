@@ -59,11 +59,12 @@ $js_version = filemtime(__DIR__ . '/../script.js');
     *{margin:0;padding:0;box-sizing:border-box}
     :root{--blue-primary:#0284c7;--blue-secondary:#0ea5e9;--blue-light:#e0f2fe;--yellow-primary:#f59e0b}
     body{font-family:'Poppins',system-ui,-apple-system,sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-    /* Fix for H1UserAgentFontSizeInSection deprecation warning */
     h1{font-size:1.5rem!important}
     .hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-768.webp');background-size:cover;background-position:center;background-repeat:no-repeat}
     @media(min-width:769px){.hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-1280.webp')}}
     @media(min-width:1281px){.hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-1920.webp')}}
+    .hero-spinner{position:absolute;top:50%;right:50%;width:200%;height:200%;background-color:var(--yellow-primary);border-radius:50%;opacity:.1;transform:translate(50%,-50%);will-change:transform;animation:heroSpin 20s linear infinite;contain:strict}
+    @keyframes heroSpin{from{transform:translate(50%,-50%) rotate(0deg)}to{transform:translate(50%,-50%) rotate(360deg)}}
     .hero-title-shadow{text-shadow:0 4px 12px rgba(0,0,0,.9),0 0 25px rgba(0,0,0,.8)}
     .hero-subtitle-shadow{text-shadow:0 2px 10px rgba(0,0,0,.9),0 0 20px rgba(0,0,0,.7)}
     .hero-description-shadow{text-shadow:0 2px 8px rgba(0,0,0,.9)}
@@ -74,9 +75,8 @@ $js_version = filemtime(__DIR__ . '/../script.js');
     @media(max-width:768px){.wa-float{width:56px;height:56px;bottom:16px;right:16px}.wa-float svg{width:28px;height:28px}}
   </style>
 
-  <!-- Load fonts with display=swap for better performance -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"></noscript>
+  <!-- Load fonts with display=optional to prevent layout shift -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=optional" rel="stylesheet">
 
   <!-- Tailwind CSS - loaded async to prevent render blocking -->
   <script>

@@ -8,8 +8,8 @@ $base = rtrim($base_url, '/');
 <!-- Hero Section -->
 <section class="relative text-white min-h-screen flex items-center justify-center px-4 py-12 sm:py-16 md:py-20 overflow-hidden bg-cover bg-center bg-no-repeat hero-bg-image">
     <div class="absolute inset-0 bg-gradient-to-br from-blue-primary/60 to-blue-secondary/60"></div>
-    <div class="absolute top-0 right-0 w-full h-full opacity-10">
-        <div class="absolute top-1/2 right-1/2 w-[200%] h-[200%] bg-yellow-primary rounded-full animate-spin hero-spin-animation"></div>
+    <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div class="hero-spinner"></div>
     </div>
     <div class="relative z-10 max-w-4xl w-full text-center pt-16">
         <div class="mb-6 sm:mb-8 flex justify-center">

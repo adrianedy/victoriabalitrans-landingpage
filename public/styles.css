@@ -50,8 +50,25 @@ h1 {
     }
 }
 
-.hero-spin-animation {
-    animation-duration: 20s;
+/* Hero spinner - GPU accelerated to prevent layout shift */
+.hero-spinner {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    width: 200%;
+    height: 200%;
+    background-color: var(--yellow-primary);
+    border-radius: 50%;
+    opacity: 0.1;
+    transform: translate(50%, -50%);
+    will-change: transform;
+    animation: heroSpin 20s linear infinite;
+    contain: strict;
+}
+
+@keyframes heroSpin {
+    from { transform: translate(50%, -50%) rotate(0deg); }
+    to { transform: translate(50%, -50%) rotate(360deg); }
 }
 
 .hero-title-shadow {
