@@ -59,6 +59,8 @@ $js_version = filemtime(__DIR__ . '/../script.js');
     *{margin:0;padding:0;box-sizing:border-box}
     :root{--blue-primary:#0284c7;--blue-secondary:#0ea5e9;--blue-light:#e0f2fe;--yellow-primary:#f59e0b}
     body{font-family:'Poppins',system-ui,-apple-system,sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    /* Fix for H1UserAgentFontSizeInSection deprecation warning */
+    h1{font-size:1.5rem!important}
     .hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-768.webp');background-size:cover;background-position:center;background-repeat:no-repeat}
     @media(min-width:769px){.hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-1280.webp')}}
     @media(min-width:1281px){.hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-1920.webp')}}

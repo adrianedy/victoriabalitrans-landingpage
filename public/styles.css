@@ -27,6 +27,12 @@ body {
     word-wrap: break-word;
 }
 
+/* Fix for H1UserAgentFontSizeInSection deprecation warning */
+/* Ensure H1 elements don't rely on browser user agent font sizes */
+h1 {
+    font-size: 1.5rem !important;
+}
+
 /* Hero section specific styles - responsive background images */
 .hero-bg-image {
     background-image: url('images/hero-768.webp');
@@ -95,6 +101,11 @@ img.lazy-img.lazy-loaded {
     justify-content: center;
 }
 
+/* Fix for H1UserAgentFontSizeInSection deprecation warning */
+.hero h1 {
+    font-size: 2rem !important;
+}
+
 @media (min-width: 768px) {
     .hero {
         padding: 100px 20px;
@@ -131,7 +142,7 @@ img.lazy-img.lazy-loaded {
 }
 
 .hero-title {
-    font-size: 2rem;
+    font-size: 2rem !important;
     font-weight: 700;
     margin-bottom: 0.75rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
