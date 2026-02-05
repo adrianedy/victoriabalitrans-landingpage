@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function() {
         emailFormMessage.className =
             'mb-4 rounded-lg px-4 py-3 text-sm sm:text-base ' +
             (kind === 'success'
-                ? 'bg-green-500/20 text-white border border-green-300/30'
+                ? 'bg-green-600 text-white border border-green-500'
                 : 'bg-red-500/20 text-white border border-red-300/30');
         emailFormMessage.textContent = text;
     };
@@ -541,6 +541,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         emailForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+
+            // Clear any existing message when submit button is clicked
+            if (emailFormMessage) {
+                emailFormMessage.classList.add('hidden');
+                emailFormMessage.textContent = '';
+            }
 
             // Honeypot: reject if website field is filled (bot)
             const websiteField = emailForm.querySelector('input[name="website"]');
@@ -583,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ? await res.json()
                     : { ok: res.ok, success: res.ok, message: await res.text() };
 
-                const isOk = Boolean(payload && (payload.ok || payload.success));
+                const isOk = Boolean(payload && (payload.status === 'ok'));
                 if (res.ok && isOk) {
                     emailForm.dataset.submitted = 'true';
                     // Update timestamp after successful send (prevent reuse)
