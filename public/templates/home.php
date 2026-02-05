@@ -13,7 +13,7 @@ $base = rtrim($base_url, '/');
     </div>
     <div class="relative z-10 max-w-4xl w-full text-center pt-16">
         <div class="mb-6 sm:mb-8 flex justify-center">
-            <img src="<?php echo e($base . '/' . $logo_path); ?>" alt="<?php echo e($logo_alt); ?>" class="h-20 sm:h-24 md:h-32 lg:h-40 w-auto object-contain drop-shadow-2xl" loading="eager" decoding="async">
+            <img src="<?php echo e($base); ?>/images/vbt-logo-160.webp" alt="<?php echo e($logo_alt); ?>" class="h-20 sm:h-24 md:h-32 lg:h-40 w-auto object-contain drop-shadow-2xl" width="160" height="160" loading="eager" decoding="async" fetchpriority="high">
         </div>
         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight break-words tracking-tight text-white hero-title-shadow"><?php echo e($hero_title); ?></h1>
         <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-5 text-white leading-relaxed tracking-wide hero-subtitle-shadow"><?php echo e($hero_subtitle); ?></p>
@@ -45,7 +45,7 @@ $base = rtrim($base_url, '/');
                                 <div class="w-full flex-shrink-0 snap-start">
                                     <button type="button" class="group block w-full" data-package-image data-package-title="<?php echo e($pkg['title']); ?>" data-package-image-label="<?php echo e($img['name']); ?>" data-package-image-src="<?php echo e($base . '/' . $img['path']); ?>" data-package-index="<?php echo (int)$index; ?>" data-image-index="<?php echo (int)$imgIndex; ?>">
                                         <div class="relative w-full h-44 sm:h-52 md:h-60 rounded-xl overflow-hidden">
-                                            <img src="<?php echo e($base . '/' . $img['path']); ?>" alt="<?php echo e($pkg['title']); ?> - <?php echo e($img['name']); ?>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img" loading="lazy" decoding="async">
+                                            <img src="<?php echo e($base . '/' . $img['path']); ?>" alt="<?php echo e($pkg['title']); ?> - <?php echo e($img['name']); ?>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img" width="400" height="300" loading="lazy" decoding="async">
                                             <span class="absolute bottom-2 left-2 text-xs text-white bg-black/60 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"><?php echo e($view_detail); ?></span>
                                         </div>
                                     </button>
@@ -113,7 +113,7 @@ $base = rtrim($base_url, '/');
                             <div class="w-full flex-shrink-0 snap-start">
                                 <button type="button" class="group block w-full" data-activity-image data-activity-name="<?php echo e($activity['title']); ?>" data-activity-image-label="<?php echo e($img['name']); ?>" data-activity-image-src="<?php echo e($base . '/' . $img['path']); ?>" data-activity-index="<?php echo (int)$index; ?>" data-image-index="<?php echo (int)$imgIndex; ?>">
                                     <div class="relative w-full h-44 sm:h-52 md:h-60 rounded-xl overflow-hidden">
-                                        <img src="<?php echo e($base . '/' . $img['path']); ?>" alt="<?php echo e($activity['title']); ?> - <?php echo e($img['name']); ?>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img" loading="lazy" decoding="async">
+                                        <img src="<?php echo e($base . '/' . $img['path']); ?>" alt="<?php echo e($activity['title']); ?> - <?php echo e($img['name']); ?>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img" width="400" height="300" loading="lazy" decoding="async">
                                         <span class="absolute bottom-2 left-2 text-xs text-white bg-black/60 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"><?php echo e($view_detail); ?></span>
                                     </div>
                                 </button>
@@ -217,7 +217,7 @@ $base = rtrim($base_url, '/');
                                 <div class="w-full flex-shrink-0 snap-start">
                                     <button type="button" class="group block w-full" data-hotel-image data-hotel-name="<?php echo e($hotel['name']); ?>" data-hotel-image-label="<?php echo e($img['name']); ?>" data-hotel-image-src="<?php echo e($base . '/' . $img['path']); ?>" data-hotel-index="<?php echo (int)$index; ?>" data-image-index="<?php echo (int)$imgIndex; ?>">
                                         <div class="relative w-full h-44 sm:h-52 md:h-60 rounded-xl overflow-hidden">
-                                            <img src="<?php echo e($base . '/' . $img['path']); ?>" alt="<?php echo e($hotel['name']); ?> - <?php echo e($img['name']); ?>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img" loading="lazy" decoding="async">
+                                            <img src="<?php echo e($base . '/' . $img['path']); ?>" alt="<?php echo e($hotel['name']); ?> - <?php echo e($img['name']); ?>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img" width="400" height="300" loading="lazy" decoding="async">
                                             <span class="absolute bottom-2 left-2 text-xs text-white bg-black/60 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"><?php echo e($view_detail); ?></span>
                                         </div>
                                     </button>

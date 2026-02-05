@@ -27,9 +27,21 @@ body {
     word-wrap: break-word;
 }
 
-/* Hero section specific styles */
+/* Hero section specific styles - responsive background images */
 .hero-bg-image {
-    background-image: url('images/cov%20web2.jpg.jpeg');
+    background-image: url('images/hero-768.webp');
+}
+
+@media (min-width: 769px) {
+    .hero-bg-image {
+        background-image: url('images/hero-1280.webp');
+    }
+}
+
+@media (min-width: 1281px) {
+    .hero-bg-image {
+        background-image: url('images/hero-1920.webp');
+    }
 }
 
 .hero-spin-animation {

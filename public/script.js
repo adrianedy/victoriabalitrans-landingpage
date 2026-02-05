@@ -1,18 +1,25 @@
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+// Performance: Use requestIdleCallback for non-critical initialization
+const scheduleTask = (fn) => {
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(fn, { timeout: 100 });
+    } else {
+        setTimeout(fn, 1);
+    }
+};
+
+// Smooth scroll for anchor links (delegated event listener for better performance)
+document.addEventListener('click', function(e) {
+    const anchor = e.target.closest('a[href^="#"]');
+    if (anchor) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(anchor.getAttribute('href'));
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    });
+    }
 });
 
-// Add fade-in animation on scroll
+// Add fade-in animation on scroll - using passive listener
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -426,18 +433,28 @@ const startAutoScroll = (carousel) => {
     visibilityObserver.observe(carousel);
 };
 
-// Initialize everything when DOM is ready
+// Initialize everything when DOM is ready - break into smaller tasks
 document.addEventListener('DOMContentLoaded', function() {
-    // Mark lazy-loaded images when they finish loading (for fade-in)
-    document.querySelectorAll('img.lazy-img').forEach(function(img) {
-        if (img.complete && img.naturalWidth > 0) {
-            img.classList.add('lazy-loaded');
-        } else {
-            img.addEventListener('load', function() {
+    // Critical: Mark lazy-loaded images when they finish loading (for fade-in)
+    // Use batch processing to avoid long tasks
+    const lazyImages = document.querySelectorAll('img.lazy-img');
+    const processImageBatch = (images, startIndex, batchSize) => {
+        const endIndex = Math.min(startIndex + batchSize, images.length);
+        for (let i = startIndex; i < endIndex; i++) {
+            const img = images[i];
+            if (img.complete && img.naturalWidth > 0) {
                 img.classList.add('lazy-loaded');
-            });
+            } else {
+                img.addEventListener('load', function() {
+                    img.classList.add('lazy-loaded');
+                }, { once: true });
+            }
         }
-    });
+        if (endIndex < images.length) {
+            scheduleTask(() => processImageBatch(images, endIndex, batchSize));
+        }
+    };
+    processImageBatch(lazyImages, 0, 10);
     // Email form: prefer PHP endpoint (send-email.php), fallback to mailto:
     const emailForm = document.getElementById('email-form');
     const emailFormMessage = document.getElementById('email-form-message');

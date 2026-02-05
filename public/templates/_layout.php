@@ -9,6 +9,8 @@ if (strpos($page_key, '_') === 0 || !is_file($content_template)) {
   return;
 }
 $base = rtrim($base_url, '/');
+$css_version = filemtime(__DIR__ . '/../styles.css');
+$js_version = filemtime(__DIR__ . '/../script.js');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo htmlspecialchars($html_lang); ?>">
@@ -29,7 +31,7 @@ $base = rtrim($base_url, '/');
   <meta property="og:url" content="<?php echo htmlspecialchars($canonical_url); ?>">
   <meta property="og:title" content="<?php echo htmlspecialchars($meta_title); ?>">
   <meta property="og:description" content="<?php echo htmlspecialchars($meta_description); ?>">
-  <meta property="og:image" content="<?php echo htmlspecialchars($base); ?>/images/cov%20web2.jpg.jpeg">
+  <meta property="og:image" content="<?php echo htmlspecialchars($base); ?>/images/cov%20web2.jpeg">
   <meta property="og:locale" content="<?php echo htmlspecialchars($og_locale); ?>">
   <?php foreach ($supported_langs as $l): if ($l === $current_lang) continue; $alt_locale = $og_locales[$l] ?? ($l . '_' . strtoupper($l)); ?>
   <meta property="og:locale:alternate" content="<?php echo htmlspecialchars($alt_locale); ?>">
@@ -37,43 +39,84 @@ $base = rtrim($base_url, '/');
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<?php echo htmlspecialchars($meta_title); ?>">
   <meta name="twitter:description" content="<?php echo htmlspecialchars($meta_description); ?>">
-  <meta name="twitter:image" content="<?php echo htmlspecialchars($base); ?>/images/cov%20web2.jpg.jpeg">
+  <meta name="twitter:image" content="<?php echo htmlspecialchars($base); ?>/images/cov%20web2.jpeg">
   <link rel="icon" type="image/png" href="<?php echo htmlspecialchars($base . '/' . $logo_path); ?>">
   <link rel="apple-touch-icon" href="<?php echo htmlspecialchars($base . '/' . $logo_path); ?>">
-  <link rel="preload" as="image" href="<?php echo htmlspecialchars($base); ?>/images/cov%20web2.jpg.jpeg" fetchpriority="high">
-  <link rel="preload" as="image" href="<?php echo htmlspecialchars($base); ?>/images/vbt-logo.png" fetchpriority="high">
-  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Preconnect to external origins for faster resource loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+  <!-- Preload critical LCP image with high priority - responsive -->
+  <link rel="preload" as="image" href="<?php echo htmlspecialchars($base); ?>/images/hero-768.webp" fetchpriority="high" type="image/webp" media="(max-width: 768px)">
+  <link rel="preload" as="image" href="<?php echo htmlspecialchars($base); ?>/images/hero-1280.webp" fetchpriority="high" type="image/webp" media="(min-width: 769px) and (max-width: 1280px)">
+  <link rel="preload" as="image" href="<?php echo htmlspecialchars($base); ?>/images/hero-1920.webp" fetchpriority="high" type="image/webp" media="(min-width: 1281px)">
+
+  <!-- Critical CSS inlined for faster FCP -->
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--blue-primary:#0284c7;--blue-secondary:#0ea5e9;--blue-light:#e0f2fe;--yellow-primary:#f59e0b}
+    body{font-family:'Poppins',system-ui,-apple-system,sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    .hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-768.webp');background-size:cover;background-position:center;background-repeat:no-repeat}
+    @media(min-width:769px){.hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-1280.webp')}}
+    @media(min-width:1281px){.hero-bg-image{background-image:url('<?php echo htmlspecialchars($base); ?>/images/hero-1920.webp')}}
+    .hero-title-shadow{text-shadow:0 4px 12px rgba(0,0,0,.9),0 0 25px rgba(0,0,0,.8)}
+    .hero-subtitle-shadow{text-shadow:0 2px 10px rgba(0,0,0,.9),0 0 20px rgba(0,0,0,.7)}
+    .hero-description-shadow{text-shadow:0 2px 8px rgba(0,0,0,.9)}
+    img.lazy-img{opacity:0;transition:opacity .25s ease-in}
+    img.lazy-img.lazy-loaded{opacity:1}
+    .wa-float{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);z-index:1000;text-decoration:none}
+    .wa-float svg{width:32px;height:32px}
+    @media(max-width:768px){.wa-float{width:56px;height:56px;bottom:16px;right:16px}.wa-float svg{width:28px;height:28px}}
+  </style>
+
+  <!-- Load fonts with display=swap for better performance -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"></noscript>
+
+  <!-- Tailwind CSS - loaded async to prevent render blocking -->
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'blue-primary': '#0284c7',
-            'blue-secondary': '#0ea5e9',
-            'blue-light': '#e0f2fe',
-            'yellow-primary': '#f59e0b',
-            'yellow-secondary': '#fbbf24',
-            'yellow-light': '#fef3c7',
-          },
-          fontFamily: { 'poppins': ['Poppins', 'sans-serif'] }
-        }
-      }
-    };
+    // Load Tailwind asynchronously
+    (function(){
+      var s=document.createElement('script');
+      s.src='https://cdn.tailwindcss.com';
+      s.onload=function(){
+        tailwind.config={
+          theme:{
+            extend:{
+              colors:{
+                'blue-primary':'#0284c7',
+                'blue-secondary':'#0ea5e9',
+                'blue-light':'#e0f2fe',
+                'yellow-primary':'#f59e0b',
+                'yellow-secondary':'#fbbf24',
+                'yellow-light':'#fef3c7'
+              },
+              fontFamily:{'poppins':['Poppins','sans-serif']}
+            }
+          }
+        };
+      };
+      document.head.appendChild(s);
+    })();
   </script>
-  <link rel="stylesheet" href="<?php echo htmlspecialchars($base); ?>/styles.css">
+
+  <!-- Main stylesheet - loaded async -->
+  <link rel="preload" href="<?php echo htmlspecialchars($base); ?>/styles.css?v=<?php echo $css_version; ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="<?php echo htmlspecialchars($base); ?>/styles.css?v=<?php echo $css_version; ?>"></noscript>
+
+  <!-- Structured data -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"TravelAgency","name":"Victoria Bali Holiday","description":"<?php echo htmlspecialchars(addslashes($schema_business_description)); ?>","url":"<?php echo htmlspecialchars($canonical_url); ?>","logo":"<?php echo htmlspecialchars($base); ?>/images/vbt-logo.png","image":"<?php echo htmlspecialchars($base); ?>/images/cov%20web2.jpg.jpeg","areaServed":{"@type":"AdministrativeArea","name":"Bali, Indonesia"},"telephone":"+62<?php echo htmlspecialchars($whatsapp); ?>","contactPoint":{"@type":"ContactPoint","telephone":"+62<?php echo htmlspecialchars($whatsapp); ?>","contactType":"customer service","availableLanguage":["en","id"]}}
+  {"@context":"https://schema.org","@type":"TravelAgency","name":"Victoria Bali Holiday","description":"<?php echo htmlspecialchars(addslashes($schema_business_description)); ?>","url":"<?php echo htmlspecialchars($canonical_url); ?>","logo":"<?php echo htmlspecialchars($base); ?>/images/vbt-logo.png","image":"<?php echo htmlspecialchars($base); ?>/images/cov%20web2.jpeg","areaServed":{"@type":"AdministrativeArea","name":"Bali, Indonesia"},"telephone":"+62<?php echo htmlspecialchars($whatsapp); ?>","contactPoint":{"@type":"ContactPoint","telephone":"+62<?php echo htmlspecialchars($whatsapp); ?>","contactType":"customer service","availableLanguage":["en","id"]}}
   </script>
 </head>
 <body class="font-poppins antialiased overflow-x-hidden">
   <!-- Lang bar: fixed top -->
   <div class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-2 bg-black/30 backdrop-blur-sm">
     <a href="<?php echo htmlspecialchars($canonical_url); ?>" class="flex items-center gap-2">
-      <img src="<?php echo htmlspecialchars($base . '/' . $logo_path); ?>" alt="<?php echo htmlspecialchars($logo_alt); ?>" class="h-10 w-auto object-contain" loading="eager" decoding="async">
+      <img src="<?php echo htmlspecialchars($base); ?>/images/vbt-logo-80.webp" alt="<?php echo htmlspecialchars($logo_alt); ?>" class="h-10 w-auto object-contain" width="40" height="40" loading="eager" decoding="async">
       <span class="text-white font-semibold text-sm sm:text-base">Victoria Bali Holiday</span>
     </a>
     <div class="flex items-center gap-3">
@@ -109,6 +152,9 @@ $base = rtrim($base_url, '/');
     window.__whatsappNumber = '<?php echo htmlspecialchars($whatsapp); ?>';
     document.getElementById('current-year').textContent = new Date().getFullYear();
   </script>
-  <script src="<?php echo htmlspecialchars($base); ?>/script.js?v=<?php echo (string) filemtime(__DIR__ . '/../script.js'); ?>" charset="UTF-8"></script>
+  <!-- EmailJS loaded only when needed (deferred) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Main script deferred for better performance -->
+  <script defer src="<?php echo htmlspecialchars($base); ?>/script.js?v=<?php echo $js_version; ?>" charset="UTF-8"></script>
 </body>
 </html>

@@ -8,3 +8,114 @@ DirectoryIndex index.php index.html
     # Block direct browser access to config (data only, included by PHP)
     RewriteRule ^config/ - [F,L]
 </IfModule>
+
+# ============================================
+# PERFORMANCE OPTIMIZATIONS
+# ============================================
+
+# Enable GZIP Compression
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML, fonts
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/ld+json
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/woff
+    AddOutputFilterByType DEFLATE font/woff2
+</IfModule>
+
+# Browser Caching - Long cache for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Default expiration: 1 month
+    ExpiresDefault "access plus 1 month"
+
+    # HTML - short cache (content may change)
+    ExpiresByType text/html "access plus 0 seconds"
+
+    # CSS and JavaScript - 1 year (use versioning)
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+
+    # Images - 1 year
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/avif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # Fonts - 1 year
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# Cache-Control Headers
+<IfModule mod_headers.c>
+    # 1 year cache for images
+    <FilesMatch "\.(ico|jpg|jpeg|png|gif|webp|avif|svg)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+
+    # 1 year cache for CSS/JS (use versioning in URLs)
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+
+    # 1 year cache for fonts
+    <FilesMatch "\.(ttf|otf|woff|woff2|eot)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+
+    # No cache for HTML (dynamic content)
+    <FilesMatch "\.(html|php)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+
+    # Security headers
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ETags - use for cache validation
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# Serve WebP images when available and supported
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_ACCEPT} image/webp
+    RewriteCond %{REQUEST_FILENAME} \.(jpe?g|png)$
+    RewriteCond %{REQUEST_FILENAME}.webp -f
+    RewriteRule ^(.+)\.(jpe?g|png)$ $1.$2.webp [T=image/webp,L]
+</IfModule>
+
+# Correct MIME types for WebP
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+    AddType image/avif .avif
+</IfModule>
