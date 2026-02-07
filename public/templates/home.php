@@ -215,9 +215,9 @@ $base = rtrim($base_url, '/');
                             <div id="hotel-carousel-<?php echo (int)$index; ?>" class="flex gap-2 overflow-x-auto snap-x scroll-smooth scrollbar-hide" data-carousel>
                                 <?php foreach ($hotelImages as $imgIndex => $img): ?>
                                 <div class="w-full flex-shrink-0 snap-start">
-                                    <button type="button" class="group block w-full" data-hotel-image data-hotel-name="<?php echo e($hotel['name']); ?>" data-hotel-image-label="<?php echo e($img['name']); ?>" data-hotel-image-src="<?php echo e($base . '/' . $img['path']); ?>" data-hotel-index="<?php echo (int)$index; ?>" data-image-index="<?php echo (int)$imgIndex; ?>">
+                                    <button type="button" class="group block w-full" data-hotel-image data-hotel-name="<?php echo e($hotel['name']); ?>" data-hotel-image-src="<?php echo e($base . '/' . $img['path']); ?>" data-hotel-index="<?php echo (int)$index; ?>" data-image-index="<?php echo (int)$imgIndex; ?>">
                                         <div class="relative w-full h-44 sm:h-52 md:h-60 rounded-xl overflow-hidden">
-                                            <img src="<?php echo e($base . '/' . $img['path']); ?>" alt="<?php echo e($hotel['name']); ?> - <?php echo e($img['name']); ?>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img" width="400" height="300" loading="lazy" decoding="async">
+                                            <img src="<?php echo e($base . '/' . $img['path']); ?>" alt="<?php echo e($hotel['name']); ?>" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 lazy-img" width="400" height="300" loading="lazy" decoding="async">
                                             <span class="absolute bottom-2 left-2 text-xs text-white bg-black/60 px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"><?php echo e($view_detail); ?></span>
                                         </div>
                                     </button>

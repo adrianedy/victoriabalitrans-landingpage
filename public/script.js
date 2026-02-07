@@ -777,13 +777,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const imageIndex = Number(button.getAttribute('data-image-index'));
         const imageSrc = button.getAttribute('data-hotel-image-src');
         const name = button.getAttribute('data-hotel-name');
-        const label = button.getAttribute('data-hotel-image-label');
         if (!hotelImages.has(hotelIndex)) {
-            hotelImages.set(hotelIndex, { name, images: [], labels: [] });
+            hotelImages.set(hotelIndex, { name, images: [] });
         }
         const entry = hotelImages.get(hotelIndex);
         entry.images[imageIndex] = imageSrc;
-        entry.labels[imageIndex] = label;
     });
     
     const closeHotelModal = () => {
@@ -802,10 +800,9 @@ document.addEventListener('DOMContentLoaded', function() {
         modalHotelIndex = hotelIndex;
         modalHotelImageIndex = ((imageIndex % entry.images.length) + entry.images.length) % entry.images.length;
         const imageSrc = entry.images[modalHotelImageIndex];
-        const label = entry.labels[modalHotelImageIndex];
         hotelModalImg.src = imageSrc;
-        hotelModalImg.alt = entry.name ? entry.name + ' - ' + label : 'Hotel image';
-        hotelModalCaption.textContent = entry.name ? entry.name + ' - ' + label : label;
+        hotelModalImg.alt = entry.name ? entry.name : 'Hotel image';
+        hotelModalCaption.textContent = entry.name ? entry.name : '';
         hotelModal.classList.remove('hidden');
         hotelModal.classList.add('flex');
     };
